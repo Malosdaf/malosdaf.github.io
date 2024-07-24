@@ -13,7 +13,7 @@ media_subpath: '/assets/data/2024-07-24-invisible-salamanders-in-aes-gcm-and-aes
 ## Background:
 When I come across the Invisible Salamander paper that described a way to bypass Facebook attachment franking scheme: a malicious user can send an objectionable image to a recipient but that recipient cannot report it as abuse. And a blog about this attack can work with AES GCM SIV. 
 
-For more details, it can be understand at we can construct a poison ciphertext and a tag that is valid under two different keys. One key will decrypt to the message we need, the other will decrypt to some trash value. The case in the paper, the attacker would make the attachment twice as long, with the first part decrypt to a abuse picture under key 1, and the second part a normal picture under key 2.
+For more details, it can be understand that we can construct a poison ciphertext and a tag that is valid under two different keys. One key will decrypt to the message we need, the other will decrypt to some trash value. The case in the paper, the attacker would make the attachment twice as long, with the first part decrypt to a abuse picture under key 1, and the second part a normal picture under key 2.
 
 ![salamander_example.png](salamander_example.png)
 *Salamander example.*

@@ -17,7 +17,6 @@ AES is a non-Feistel cipher that encrypts and decrypts a data block . It uses 10
 
 It is a symmetric block *cipher* , which means a single key will encrypt and decrypt all the data.
 
----
 
 # Block Cipher:
 
@@ -76,7 +75,7 @@ A **Field** is a [**Group**](https://en.wikipedia.org/wiki/Group_theory) which s
 
 Finite Field is a field with finite element:
 
-- If $Z/nZ$   with n is not a prime, then it is not a field because $(Z/nZ -\{0\} \neq (Z/nZ)^{\times}$ . There exist a number with does not relatively prime to n so there is no inverse under multiplication.
+- If $Z/nZ$   with n is not a prime, then it is not a field because $(Z/nZ -\{0\}) \neq (Z/nZ)^{\times}$ . There exist a number with does not relatively prime to n so there is no inverse under multiplication.
 
 All finite fields have $p^n$ elements where $p$ is prime and $n$ is an integer at least 1. The field with $p^n$ elements is sometimes called the **Galois Field** - GF$(p^n)$.
 
@@ -113,7 +112,7 @@ $$
 
 ## Multiplication in GF($2^8$):
 
-We will define the multiplication in GF($2^8$) to be the ordinary polynomial product except we will take the reminder after dividing with [**irreducible polynomial](https://matthewvaneerde.wordpress.com/2014/02/01/sieving-irreducible-monic-polynomials-over-a-finite-field/) m(x)** of degree 8:
+We will define the multiplication in GF($2^8$) to be the ordinary polynomial product except we will take the reminder after dividing with [**irreducible polynomial**](https://matthewvaneerde.wordpress.com/2014/02/01/sieving-irreducible-monic-polynomials-over-a-finite-field/) **m(x)** of degree 8:
 
 $$
 m(x) = x^8+x^4+x^3+x+1
@@ -153,7 +152,7 @@ So $b\times c$ is equal to $\{0xC1\}$. There is also a faster way to do it as de
 
 In AES, To calculate the multiplication faster, we using the same idea as [binary exponentiation](https://cp-algorithms.com/algebra/binary-exp.html) - which means present the pow number in binary form and begin double and add sequence.
 
-The function xTime is used to multiply number with $0x02$ in GF($2^8$).
+The function xTime is used to multiply number with $x$ or in hex $0x02$ in GF($2^8$).
 
 $$
 \text{xTime(b)} = \begin{cases}
