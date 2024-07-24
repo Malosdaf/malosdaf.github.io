@@ -3,11 +3,11 @@ layout: post
 title: Write-up-AmateursCTF-2024
 description: Easy to medium crypto challenges.
 date: '2024-04-11 17:39:12 +0700'
-categories: [WriteUps]
+categories: [Write-up]
 tags: [crypto]
 math: true
 mermaid: true
-media_subpath: '/assets/2024-07-09-write-up-amateursctf-2024'
+media_subpath: '/assets/data/2024-07-09-write-up-amateursctf-2024'
 ---
 ## Aesy
 ### Challenge decription:

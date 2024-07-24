@@ -81,6 +81,8 @@ Many AEADS including AES-GCM suffer catastrophic failures of confidentiality and
 2. Key derivation
 3. Two function - Encryption and Decryption.
 4. An authenticator function POLYVAL.
+
+
 ## Details:
 ### POLYVAL:
 The field uses in POLYVAL is the same with GHASH - $GF(2^{128})$, but the reduction polynomial is $x^{128}  + x^{127} + x^{126}+x^{121}+1$. We denote the field as $ \mathbb{F}$. Importantly, the mapping from bits to field element in this is different from mapping of GHASH or AES. It maps by convert bytes to bits but in reverse order - like little endian. E.g: "\x01" is 00000001 but in POLYVAL mapping will be 10000000.

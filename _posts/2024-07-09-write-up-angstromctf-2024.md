@@ -3,7 +3,7 @@ layout: post
 title: Write-up-Angstromctf-2024
 date: '2024-05-29 07:43:17 +0700'
 description: Crypto challenges
-categories: [WriteUps]
+categories: [Write-up]
 tags: [crypto]
 math: true
 mermaid: true
