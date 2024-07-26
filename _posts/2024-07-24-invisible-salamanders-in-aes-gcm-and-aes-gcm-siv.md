@@ -11,7 +11,7 @@ media_subpath: '/assets/data/2024-07-24-invisible-salamanders-in-aes-gcm-and-aes
 ---
 
 ## Background:
-When I come across the Invisible Salamander paper that described a way to bypass Facebook attachment franking scheme: a malicious user can send an objectionable image to a recipient but that recipient cannot report it as abuse. And a blog about this attack can work with AES GCM SIV. 
+When I come across the [Invisible Salamander paper](https://eprint.iacr.org/2019/016.pdf) that described a way to bypass Facebook attachment franking scheme: a malicious user can send an objectionable image to a recipient but that recipient cannot report it as abuse. And a [blog](https://keymaterial.net/2020/09/07/invisible-salamanders-in-aes-gcm-siv/) about this attack can work with AES GCM SIV. 
 
 For more details, it can be understand that we can construct a poison ciphertext and a tag that is valid under two different keys. One key will decrypt to the message we need, the other will decrypt to some trash value. The case in the paper, the attacker would make the attachment twice as long, with the first part decrypt to a abuse picture under key 1, and the second part a normal picture under key 2.
 
@@ -156,7 +156,7 @@ def attack_gcm_for_manyblock(message,aad=None):
     return key1,key2,ciphertext_attack
 ```
 ![AES-GCM-attack.png](AES-GCM-attack.png)
-### Constructing Salamander on AES GCM:
+### Constructing Salamander on AES GCM SIV:
 About this mode of AES, see [here](https://malosdaf.github.io/posts/aes-gcm-and-aes-gcm-siv-mode/). In the blog, I have depicted the different between the two functions GHASH and POLYVAL. GHASH is calculated using the ciphertext, but POLYVAL is calculated using the plaintext.
 
 In AES-GCM-SIV, the output from POLYVAL function will be served as input to a AES-ECB encryption, which in turn (xor with nonce) is the input to AES-CTR encryption from plaintext to the ciphertext. So the approach making two authenticator function equal is not enough in this scenario.
@@ -167,6 +167,7 @@ $H = \;\text{msg_auth_key} \; \cdot x^{-128} \; \text{and msg_enc_key} = K_e$
 * $POVYVAL(H,P) = \sum_{i=0}^{n}(P_i \cdot H^{n+1-i}) = S_s$
 * $\text{tag = AES-ECB(key=}K_E,POLYVAL(H,P))$
 * $\text{C = AES-CTR(key}K_E,IV=tag)$
+
 The plaintext block $P$ is consists of aad, plaintext, len(aad), len(plaintext).
 
 
@@ -182,7 +183,7 @@ So we have to satisfy the equations:
 
 $$ \text{key_stream1}[i] + P_{i,1} = \text{key_stream2}[i] + P_{i,2}$$
 
-With give us $n$ more equations. So if our plaintext needed has $n$ blocks of 16 bytes and by adding $2$ sacrificial blocks to a total of $n+2$ blocks, we will have $2$ equations from $POLYVAL$, $n+2$ from $\text{key_stream}$ and $n$ from fixing our plaintext needed to a total of $2+n+2+n = 2*(n+2)$ linear equations for $n+2$ variables so it is sufficient to solve easily. All the equation can be written in matrix form.
+With give us $n$ more equations. So if our plaintext needed has $n$ blocks of 16 bytes and by adding $2$ sacrificial blocks to a total of $n+2$ blocks, we will have $2$ equations from $POLYVAL$, $n+2$ from $\text{key_stream}$ and $n$ from fixing our plaintext needed to a total of $2+n+2+n = 2\cdot(n+2)$ linear equations for $2\cdot(n+2)$ variables so it is sufficient to solve easily. All the equation can be written in matrix form.
 
 $$P(\text{n blocks + 2 sacrificial block}) \; \Rightarrow \text{Matrix (n+2)x(n+2)}$$ 
 

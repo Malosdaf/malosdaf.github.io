@@ -62,7 +62,7 @@ The function will be illustrated by diagram.
 ![aes-gcm-encryption.png](aes-gcm-encryption.png)
 
 * Spectification:
-    - $\text{Provided - Key(K), IV - will be fixed as 96 bits for easily.}$
+    - $\text{Provided - Key(K), IV - will be fixed as 96 bits for easier calculatio.}$
     - $H = \text{AES_ECB_encrypt}(K,0^{128}).$
     - $J_0 = IV \|\| 0^{31}\|\| 1. - 1 \; \text{to eliminate the case} \; H=J_0 \; \text{if} \; IV = 0^{96}$
     - $CT = \text{AES_CTR_encrypt}(KEY= K,Nonce = J_0 + 1,P) $
