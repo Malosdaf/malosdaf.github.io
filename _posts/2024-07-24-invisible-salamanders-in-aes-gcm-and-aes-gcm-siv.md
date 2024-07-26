@@ -159,7 +159,7 @@ def attack_gcm_for_manyblock(message,aad=None):
 ### Constructing Salamander on AES GCM:
 About this mode of AES, see [here](https://malosdaf.github.io/posts/aes-gcm-and-aes-gcm-siv-mode/). In the blog, I have depicted the different between the two functions GHASH and POLYVAL. GHASH is calculated using the ciphertext, but POLYVAL is calculated using the plaintext.
 
-In AES-GCM-SIV, the output from POLYVAL function will be served as input to a AES-ECB encryption, which in turn (xor with nonce) is the input to AES-CTR encryption from plaintext to the ciphertext. So the approach making two authenticator function equal can not be used in this scenario.
+In AES-GCM-SIV, the output from POLYVAL function will be served as input to a AES-ECB encryption, which in turn (xor with nonce) is the input to AES-CTR encryption from plaintext to the ciphertext. So the approach making two authenticator function equal is not enough in this scenario.
 
 Summary, AES-GCM-SIV will have this elements:
 * $ \text{msg_auth_key,msg_enc_key = Key derivation(master key). we will denote}$
@@ -168,6 +168,8 @@ $H = \;\text{msg_auth_key} \; \cdot x^{-128} \; \text{and msg_enc_key} = K_e$
 * $\text{tag = AES-ECB(key=}K_E,POLYVAL(H,P))$
 * $\text{C = AES-CTR(key}K_E,IV=tag)$
 The plaintext block $P$ is consists of aad, plaintext, len(aad), len(plaintext).
+
+
 So the approach for this will be fixed the tag first. And from that calculate 
 $$S_{s,i} = \text{AES-EBC-Decrypt}(K_{E,i},tag)$$
 
