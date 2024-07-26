@@ -201,6 +201,22 @@ H_1^{n+3} & H_1^{n+2} & ... & H_1^{2} & 0 & 0 & ... & 0 \\
 . \\
 0 & 0 & .. & 1 & 0 & 0 & .. & 0 
 \end{pmatrix}
+\cdot
+X = 
+\begin{pmatrix}
+S_{s1} + H_1^{n+3+len(aad)}\cdot aad_0 + H_1^{n+3+len(aad)-1} \cdot aad_1 + ... + H_1^{n+3+1} \cdot aad_{len(aad)-1}\\
+S_{s2} + H_2^{n+3+len(aad)}\cdot aad_0 + H_2^{n+3+len(aad)-1} \cdot aad_1 + ... + H_2^{n+3+1} \cdot aad_{len(aad)-1}\\
+\text{key_stream1}[0] +   \text{key_stream2}[0]\\
+\text{key_stream1}[1] +   \text{key_stream2}[1]\\
+.\\
+.\\
+\text{key_stream1}[n+2] +   \text{key_stream2}[n+2]\\
+\text{need_plaintext1}[0]\\
+\text{need_plaintext1}[1]\\
+.\\
+.\\
+\text{need_plaintext1}[n+2]\\
+\end{pmatrix}
 $$
 
 <div style="text-align: center;">
@@ -221,6 +237,22 @@ H_1^{n+3} & H_1^{n+2} & ... & H_1^{2} & 0 & 0 & ... & 0 \\
 . \\
 . \\
 0 & 0 & .. & 1 & 0 & 0 & .. & 0 
+\end{pmatrix}
+\cdot
+X = 
+\begin{pmatrix}
+S_{s1} + H_1^{n+3+len(aad)}\cdot aad_0 + H_1^{n+3+len(aad)-1} \cdot aad_1 + ... + H_1^{n+3+1} \cdot aad_{len(aad)-1}\\
+S_{s2} + H_2^{n+3+len(aad)}\cdot aad_0 + H_2^{n+3+len(aad)-1} \cdot aad_1 + ... + H_2^{n+3+1} \cdot aad_{len(aad)-1}\\
+\text{key_stream1}[0] +   \text{key_stream2}[0]\\
+\text{key_stream1}[1] +   \text{key_stream2}[1]\\
+.\\
+.\\
+\text{key_stream1}[n+2] +   \text{key_stream2}[n+2]\\
+\text{need_plaintext1}[0]\\
+\text{need_plaintext2}[1]\\
+.\\
+.\\
+\text{need_plaintext1}[n+2]\\
 \end{pmatrix}
 $$
 
