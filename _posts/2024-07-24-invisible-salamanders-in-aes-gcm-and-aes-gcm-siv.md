@@ -9,7 +9,7 @@ categories: [Blogs]
 tags: [aes,poc]
 media_subpath: '/assets/data/2024-07-24-invisible-salamanders-in-aes-gcm-and-aes-gcm-siv/'
 ---
-
+Note: Information about AES - Advanced Encryption Standard and mode GCM, GCM-SIV can be read [here](https://malosdaf.github.io/categories/blogs/).
 ## Background:
 When I come across the [Invisible Salamander paper](https://eprint.iacr.org/2019/016.pdf) that described a way to bypass Facebook attachment franking scheme: a malicious user can send an objectionable image to a recipient but that recipient cannot report it as abuse. And a [blog](https://keymaterial.net/2020/09/07/invisible-salamanders-in-aes-gcm-siv/) about this attack can work with AES GCM SIV. 
 

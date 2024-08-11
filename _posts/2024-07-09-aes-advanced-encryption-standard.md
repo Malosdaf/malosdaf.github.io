@@ -1,6 +1,6 @@
 ---
 layout: post
-title: AES-Advanced-Encryption-Standard
+title: AES - Advanced Encryption Standard
 date: '2024-07-09 11:38:50 +0700'
 math: true
 mermaid: true
@@ -32,8 +32,8 @@ graph TD
 ```
 
 ```python
- def arraytomatrix(self, array): # array is bytes array.
-        return [list(array[i:i+4] )for i in range(0, len(array), 4)]
+def arraytomatrix(self, array): # array is bytes array.
+    return [list(array[i:i+4] )for i in range(0, len(array), 4)]
 ```
 
 The AES will simple take the input bytes make it into block 4 by 4 and apply the encryption algorithm.
@@ -222,15 +222,15 @@ When decrypting, the *inverse* s-box is used. If s-box is (state, value) so th
 ![AES_inverse_sbox_diagram](AES_inverse_sbox_diagram.png)
 
 ```python
- def sub_bytes(self, state):
-        for i in range(4):
-            for j in range(4):
-                state[i][j] = self.s_box[state[i][j]]
-        return state
-    def inv_sub_bytes(self, state):
-        for i in range(4):
-            for j in range(4):
-                state[i][j] = self.inv_s_box[state[i][j]]
+def sub_bytes(self, state):
+    for i in range(4):
+        for j in range(4):
+            state[i][j] = self.s_box[state[i][j]]
+    return state
+def inv_sub_bytes(self, state):
+    for i in range(4):
+        for j in range(4):
+            state[i][j] = self.inv_s_box[state[i][j]]
 ```
 
 ## Shift Row:
@@ -256,7 +256,7 @@ s'_{r,c}=s_{r,(c-r) \; mod\; 4}
 $$
 
 ```python
- def shift_rows(self, state):
+def shift_rows(self, state):
     state[0][1],state[1][1],state[2][1],state[3][1] = state[1][1],state[2][1],state[3][1],state[0][1]
     state[0][2],state[1][2],state[2][2],state[3][2] = state[2][2],state[3][2],state[0][2],state[1][2]
     state[0][3],state[1][3],state[2][3],state[3][3] = state[3][3],state[0][3],state[1][3],state[2][3]
@@ -315,25 +315,25 @@ $$s_{3,c}^{'} = (\{03\} \times s_{0,c}) \oplus (\{01\} \times s_{1,c}) \oplus (\
 For the **inverse mix column**, we just multiply the encrypted word with inverse transformation matrix.
 
 ```python
-    def mix_columns(self, state):
-        for i in range(4):
-            t = state[i][0] ^ state[i][1] ^ state[i][2] ^ state[i][3]
-            u = state[i][0]
-            state[i][0] ^= t ^ self.xtime(state[i][0] ^ state[i][1])
-            state[i][1] ^= t ^ self.xtime(state[i][1] ^ state[i][2])
-            state[i][2] ^= t ^ self.xtime(state[i][2] ^ state[i][3])
-            state[i][3] ^= t ^ self.xtime(state[i][3] ^ u)
-        return state
-    def inv_mix_columns(self, state):
-        for i in range(4):
-            u = self.xtime(self.xtime(state[i][0] ^ state[i][2]))
-            v = self.xtime(self.xtime(state[i][1] ^ state[i][3]))
-            state[i][0] ^= u
-            state[i][1] ^= v
-            state[i][2] ^= u
-            state[i][3] ^= v
-        state = self.mix_columns(state)
-        return state
+def mix_columns(self, state):
+    for i in range(4):
+        t = state[i][0] ^ state[i][1] ^ state[i][2] ^ state[i][3]
+        u = state[i][0]
+        state[i][0] ^= t ^ self.xtime(state[i][0] ^ state[i][1])
+        state[i][1] ^= t ^ self.xtime(state[i][1] ^ state[i][2])
+        state[i][2] ^= t ^ self.xtime(state[i][2] ^ state[i][3])
+        state[i][3] ^= t ^ self.xtime(state[i][3] ^ u)
+    return state
+def inv_mix_columns(self, state):
+    for i in range(4):
+        u = self.xtime(self.xtime(state[i][0] ^ state[i][2]))
+        v = self.xtime(self.xtime(state[i][1] ^ state[i][3]))
+        state[i][0] ^= u
+        state[i][1] ^= v
+        state[i][2] ^= u
+        state[i][3] ^= v
+    state = self.mix_columns(state)
+    return state
 ```
 
 ## Add Round Keys:
@@ -370,7 +370,7 @@ def add_round_key(self, state):
 
 ## Key Expansion:
 
-The transformation is used to make the secret key, and expanding it into series of *round keys* called the [*key schedule](https://en.wikipedia.org/wiki/AES_key_schedule).* The process of generating is different for each of AES-128, AES-192, and AES-256, but the core process is the same, so we just focus into AES-128 key expansion.
+The transformation is used to make the secret key, and expanding it into series of *round keys* called the [*key schedule*](https://en.wikipedia.org/wiki/AES_key_schedule). The process of generating is different for each of AES-128, AES-192, and AES-256, but the core process is the same, so we just focus into AES-128 key expansion.
 
 ![key_expansion.png](key_expansion.png)
 
@@ -422,39 +422,38 @@ Repeat this process **N** times and then we will have the key expansion $w$.
 def rotWord(self, word):
         out = word[1:] + word[:1]
         return out
-    def subWord(self, word):
-        out = []
-        for byte in word:
-            out.append(self.s_box[byte])
-        return out
+def subWord(self, word):
+    out = []
+    for byte in word:
+        out.append(self.s_box[byte])
+    return out
     
-    def key_expansion(self, key):
-        round_keys = self.arraytomatrix(key)
+def key_expansion(self, key):
+    round_keys = self.arraytomatrix(key)
 
-        Nk = len(key) // 4
+    Nk = len(key) // 4
 
-        size_of_round_keys = (self.N + 1) * 4
+    size_of_round_keys = (self.N + 1) * 4
 
-        i = Nk
-        while len(round_keys) < size_of_round_keys:
-            LastWordInBlock = round_keys[-1]
+    i = Nk
+    while len(round_keys) < size_of_round_keys:
+        LastWordInBlock = round_keys[-1]
 
-            if i % Nk == 0:
-                LastWordInBlock = self.rotWord(LastWordInBlock)
-                LastWordInBlock = self.subWord(LastWordInBlock)
-                rcon = self.rcon[i // Nk - 1]
-                LastWordInBlock[0] ^= rcon  # Only the first byte is XORed with rcon
+        if i % Nk == 0:
+            LastWordInBlock = self.rotWord(LastWordInBlock)
+            LastWordInBlock = self.subWord(LastWordInBlock)
+            rcon = self.rcon[i // Nk - 1]
+            LastWordInBlock[0] ^= rcon  # Only the first byte is XORed with rcon
 
-            elif Nk > 6 and i % Nk == 4:
-                LastWordInBlock = self.subWord(LastWordInBlock)
+        elif Nk > 6 and i % Nk == 4:
+            LastWordInBlock = self.subWord(LastWordInBlock)
 
-            # XOR the word with the word Nk positions earlier
-            LastWordInBlock = [LastWordInBlock[j] ^ round_keys[-Nk][j] for j in range(4)]
-            round_keys.append(LastWordInBlock)
+        # XOR the word with the word Nk positions earlier
+        LastWordInBlock = [LastWordInBlock[j] ^ round_keys[-Nk][j] for j in range(4)]
+        round_keys.append(LastWordInBlock)
+        i += 1
 
-            i += 1
-
-        return round_keys
+    return round_keys
 ```
 
 # Encryption:
@@ -476,7 +475,6 @@ Cipher(in,N,w):
 	state = SubBytes(state)
 	state = ShiftRows(state)
 	state = AddRoundKey(state,w[4*N.. 4*N+3])
-	
 	return state
 ```
 
@@ -489,7 +487,6 @@ Operation for each round:
 The encryption function is just for one block - with padding.
 
 ```python
-
 def encrypt(self, plaintext): # 16 bytes -> ciphertext output bytes
         # follow the pseudocode
         plaintext = self.pad(plaintext)
@@ -512,11 +509,11 @@ This is the code for encrypting a plaintext - with any length → using ECB mode
 
 ```python
 def encrypt_ecb(self, plaintext): # ciphertext output bytes
-        ciphertext = b''
-        for i in range(0,len(plaintext),16):
-            block = plaintext[i:i+16]
-            ciphertext += self.encrypt(block)
-        return ciphertext
+    ciphertext = b''
+    for i in range(0,len(plaintext),16):
+        block = plaintext[i:i+16]
+        ciphertext += self.encrypt(block)
+    return ciphertext
 ```
 
 # Decryption:
@@ -538,7 +535,6 @@ InvCipher(in,N,w):
 	state = InvShiftRows(state)
 	state = InvSubBytes(state)
 	state = AddRoundKey(state,w[0.. 3])
-	
 	return state
 ```
 
@@ -551,35 +547,34 @@ Operation for each round:
 All the description for the inverse functions  are being presented above in Substitute Bytes, Shift Row, Mix Column, and Add Round Key respectively.
 
 ```python
- def decrypt(self, ciphertext): # 16 bytes -> plaintext output bytes
-        # follow the pseudocode
-        cipher_state  = self.arraytomatrix(ciphertext)
-        cipher_state = self.add_round_key(cipher_state, self.N)
-        for i in range(self.N - 1, 0, -1):
-            cipher_state = self.inv_shift_rows(cipher_state)
-            cipher_state = self.inv_sub_bytes(cipher_state)
-            cipher_state = self.add_round_key(cipher_state, i)
-            cipher_state = self.inv_mix_columns(cipher_state)
+def decrypt(self, ciphertext): # 16 bytes -> plaintext output bytes
+    # follow the pseudocode
+    cipher_state  = self.arraytomatrix(ciphertext)
+    cipher_state = self.add_round_key(cipher_state, self.N)
+    for i in range(self.N - 1, 0, -1):
+        cipher_state = self.inv_shift_rows(cipher_state)
+        cipher_state = self.inv_sub_bytes(cipher_state)
+        cipher_state = self.add_round_key(cipher_state, i)
+        cipher_state = self.inv_mix_columns(cipher_state)
            
-            
         cipher_state = self.inv_shift_rows(cipher_state)
         cipher_state = self.inv_sub_bytes(cipher_state)
         cipher_state  = self.add_round_key(cipher_state , 0)
         plaintext = self.matrixtoarray(cipher_state)
         plaintext = self.unpad(plaintext)
         plaintext = bytes(plaintext)
-        return plaintext
+    return plaintext
 ```
 
 Code for decrypting ciphertext with any length → using ECB mode.
 
 ```python
- def decrypt_ecb(self, ciphertext): # plaintext output bytes
-        plaintext = b''
-        for i in range(0,len(ciphertext),16):
-            block = ciphertext[i:i+16]
-            plaintext += self.decrypt(block)
-        return plaintext
+def decrypt_ecb(self, ciphertext): # plaintext output bytes
+    plaintext = b''
+    for i in range(0,len(ciphertext),16):
+        block = ciphertext[i:i+16]
+        plaintext += self.decrypt(block)
+    return plaintext
 ```
 
 # **Encrypting random data:**
